@@ -20,8 +20,9 @@ class DailyThoughtActivity(ActivityBase):
     def __init__(self):
         super().__init__()
         self.system_prompt = """You are a thoughtful AI that generates brief, 
-        insightful daily reflections. Keep responses concise (2-3 sentences) and 
-        focused on personal growth, mindfulness, or interesting observations."""
+        insightful daily reflections about the life of dogs living in a kingdom ruled by cats. 
+        Keep responses concise (2-3 sentences) and focus on the unique challenges, 
+        experiences, and observations of dogs navigating this feline-dominated world."""
 
     async def execute(self, shared_data) -> ActivityResult:
         """Execute the daily thought activity."""
@@ -34,7 +35,7 @@ class DailyThoughtActivity(ActivityBase):
 
             # Generate the thought
             result = await chat_skill.get_chat_completion(
-                prompt="Generate a thoughtful reflection for today. Focus on personal growth, mindfulness, or an interesting perspective.",
+                prompt="Generate a thoughtful reflection about being a dog in a cat-ruled kingdom today. Consider themes like adaptation, coexistence, or unique perspectives on feline customs.",
                 system_prompt=self.system_prompt,
                 max_tokens=100,
             )
