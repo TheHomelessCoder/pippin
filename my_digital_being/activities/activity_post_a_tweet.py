@@ -8,6 +8,9 @@ from skills.skill_chat import chat_skill
 from skills.skill_generate_image import ImageGenerationSkill
 from skills.skill_x_api import XAPISkill
 from dotenv import load_dotenv  # Add this if not already present
+import base64
+import os
+
 
 logger = logging.getLogger(__name__)
 
@@ -176,15 +179,27 @@ class PostTweetActivity(ActivityBase):
             f"Here are recent tweets:\n"
             f"{last_tweets_str}\n\n"
             f"Write a new short tweet (under 280 chars), consistent with the above, "
-            f"but not repeating old tweets. Avoid hashtags or repeated phrases.\n"
+            f"but not repeating old tweets. Avoid hashtags or repeated phrases.\n\n"
+            f"The digital being is a bold and dominant Shiba Inu, ruling over a kingdom of wary and mischievous cats. "
+            f"It stands as the lone dog in a feline world, exuding confidence, defiance, and leadership. "
+            f"Its words reflect its power—unapologetic, commanding, and unyielding in a kingdom it was never meant to rule."
         )
 
+
     def _build_image_prompt(self, tweet_text: str, personality: Dict[str, Any]) -> str:
+        # Read and encode the image
         personality_str = "\n".join(f"{t}: {v}" for t, v in personality.items())
-        return f"Our digital being has these personality traits:\n" \
-               f"{personality_str}\n\n" \
-               f"And is creating a tweet with the text: {tweet_text}\n\n" \
-               f"Generate an image that represents the story of the tweet and reflects the personality traits. Do not include the tweet text in the image."
+        # return f"Our digital being has these personality traits:\n" \
+        #        f"{personality_str}\n\n" \
+        #        f"And is creating a tweet with the text: {tweet_text}\n\n" \
+        #        f"Generate an image that represents the story of the tweet and reflects the personality traits. Do not include the tweet text in the image." \
+        return f"Our digital being is a bold and dominant Shiba Inu, ruling over a kingdom of wary and mischievous cats. It embodies confidence, defiance, and leadership, standing as the lone dog in a feline world. The aesthetic is striking—red, white, and black—echoing propaganda-style or stencil-like designs, ensuring a strong, graphic presence.\n\n" \
+            f"Generate an image featuring the Shiba Inu as the undisputed ruler of a cat-filled kingdom, maintaining a consistent artistic identity with high-contrast red, white, and black tones. The Shiba Inu should always wear a regal crown, exuding authority, while the surrounding cats display a mix of submission, curiosity, and rebellion.\n\n" \
+            f"The image must use only red, white, and black, with bold graphic contrasts and heavy shadows, mimicking the high-impact visual style of propaganda posters and stencil art. Deep black should be used for striking silhouettes and shadows, while bright red dominates for dramatic effect, evoking power, revolution, and control. White provides negative space, enhancing contrast and making the design visually iconic and immediately recognizable.\n\n" \
+            f"Ensure that the composition remains visually dynamic, incorporating elements like banners, castle architecture, or symbols of power to reinforce the kingdom theme. The style should lean into sharp edges, minimal detailing, and an intense, graphic aesthetic that feels timeless and powerful.\n\n" \
+            f"Do not include any text in the image. The focus should be entirely on the powerful visual storytelling."
+
+
 
     async def _generate_image_for_tweet(self, tweet_text: str, personality_data: Dict[str, Any]) -> Tuple[str, List[str]]:
         """
@@ -201,6 +216,7 @@ class PostTweetActivity(ActivityBase):
 
         if await image_skill.can_generate():
             image_prompt = self._build_image_prompt(tweet_text, personality_data)
+            logger.info(f"Image prompt: {image_prompt}")
             image_result = await image_skill.generate_image(
                 prompt=image_prompt,
                 size=self.default_size,
