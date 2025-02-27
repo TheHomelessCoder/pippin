@@ -37,7 +37,7 @@ class PostTweetActivity(ActivityBase):
         self.max_length = 280
         # If you know your Twitter username, you can embed it in the link
         # or fetch it dynamically. Otherwise, substitute accordingly:
-        self.twitter_username = "barbara12817659"
+        self.twitter_username = "DickOnSolXYZ"
         # set this to True if you want to generate an image for the tweet
         self.image_generation_enabled = True
         self.default_size = (1024, 1024)  # Added for image generation
@@ -195,8 +195,8 @@ class PostTweetActivity(ActivityBase):
         #        f"Generate an image that represents the story of the tweet and reflects the personality traits. Do not include the tweet text in the image." \
         return f"Our digital being is a bold and dominant Shiba Inu, ruling over a kingdom of wary and mischievous cats. It embodies confidence, defiance, and leadership, standing as the lone dog in a feline world. The aesthetic is striking—red, white, and black—echoing propaganda-style or stencil-like designs, ensuring a strong, graphic presence.\n\n" \
             f"Generate an image featuring the Shiba Inu as the undisputed ruler of a cat-filled kingdom, maintaining a consistent artistic identity with high-contrast red, white, and black tones. The Shiba Inu should always wear a regal crown, exuding authority, while the surrounding cats display a mix of submission, curiosity, and rebellion.\n\n" \
-            f"The image must use only red, white, and black, with bold graphic contrasts and heavy shadows, mimicking the high-impact visual style of propaganda posters and stencil art. Deep black should be used for striking silhouettes and shadows, while bright red dominates for dramatic effect, evoking power, revolution, and control. White provides negative space, enhancing contrast and making the design visually iconic and immediately recognizable.\n\n" \
-            f"Ensure that the composition remains visually dynamic, incorporating elements like banners, castle architecture, or symbols of power to reinforce the kingdom theme. The style should lean into sharp edges, minimal detailing, and an intense, graphic aesthetic that feels timeless and powerful.\n\n" \
+            f"The image must use only red, white, and black, with bold graphic contrasts and heavy shadows, mimicking the high-impact visual style and stencil art. Deep black should be used for striking silhouettes and shadows, while bright red dominates for dramatic effect. White provides negative space, enhancing contrast and making the design visually iconic and immediately recognizable.\n\n" \
+            f"Ensure that the composition remains visually dynamic, incorporating elements like banners, castle architecture, or symbols of power.\n\n" \
             f"Do not include any text in the image. The focus should be entirely on the powerful visual storytelling."
 
 
@@ -253,8 +253,8 @@ class PostTweetActivity(ActivityBase):
 
         logger.info(f"Starting NFT minting with image_url: {image_url}")
         
-        API_KEY = os.environ.get("CROSSMINT_STAGING_API_KEY")
-        ENV = "staging"
+        API_KEY = os.environ.get("CROSSMINT_API_KEY")
+        ENV = "www"
         # RECIPIENT_EMAIL = "mrcleantoiletdao@gmail.com"
         RECIPIENT_EMAIL = os.environ.get("RECEIPIENT_ID")
         COLLECTION_ID = os.environ.get("CROSSMINT_COLLECTION_ID")
@@ -266,7 +266,7 @@ class PostTweetActivity(ActivityBase):
 
         # Prepare metadata for Story protocol
         payload = {
-            "owner": f"email:{RECIPIENT_EMAIL}:story-testnet",
+            "owner": f"email:{RECIPIENT_EMAIL}:story",
             "reuploadLinkedFiles": True,
             "nftMetadata": {
                 "name": safe_name,
@@ -279,9 +279,9 @@ class PostTweetActivity(ActivityBase):
                 "ipType": "social-media",
                 "creators": [
                     {
-                        "name": "AI Digital Being",
+                        "name": "Dick on Sol",
                         "email": RECIPIENT_EMAIL,
-                        "crossmintUserLocator": f"email:{RECIPIENT_EMAIL}:story-testnet",
+                        "crossmintUserLocator": f"email:{RECIPIENT_EMAIL}:story",
                         "description": "AI Content Creator",
                         "contributionPercent": 100
                     }
